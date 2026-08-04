@@ -9,7 +9,6 @@ import (
 
 	systemWallpaper "github.com/reujab/wallpaper"
 
-	"github.com/matthiasharzer/daily-wallpaper/app"
 	"github.com/matthiasharzer/daily-wallpaper/local"
 	"github.com/matthiasharzer/daily-wallpaper/logging"
 	"github.com/matthiasharzer/daily-wallpaper/wallpaper"
@@ -27,8 +26,8 @@ func NewCurator(wallpaperProvider wallpaper.Provider, storage local.Storage) Cur
 	}
 }
 
-func (c *Curator) downloadWallpaper(url string, filepath string) error {
-	file, err := os.Create(filepath)
+func (c *Curator) downloadWallpaper(url string, filePath string) error {
+	file, err := os.Create(filePath)
 	if err != nil {
 		return fmt.Errorf("failed to create wallpaper file: %w", err)
 	}
@@ -84,7 +83,7 @@ func (c *Curator) Run() error {
 		return nil
 	}
 
-	wallpaperFile := filepath.Join(app.StorageDirectory, "current_wallpaper")
+	wallpaperFile := filepath.Join(local.StorageDirectory, "current_wallpaper")
 	err = c.downloadWallpaper(latestWallpaperURL, wallpaperFile)
 	if err != nil {
 		return fmt.Errorf("failed to download wallpaper: %w", err)

@@ -55,6 +55,10 @@ func (a *API) GetWallpapers(startIndex, count int) ([]ResponseImage, error) {
 		_ = resp.Body.Close()
 	}()
 
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+
 	var response Response
 	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {

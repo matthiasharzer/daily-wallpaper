@@ -33,6 +33,10 @@ func resolveMarket(market string) (string, error) {
 		if err != nil {
 			return "", fmt.Errorf("failed to get system locale: %w", err)
 		}
+		err = validateMarket(systemLocale)
+		if err != nil {
+			return "", fmt.Errorf("invalid system locale: %w", err)
+		}
 
 		return systemLocale, nil
 	}
@@ -48,7 +52,7 @@ func resolveMarket(market string) (string, error) {
 var marketArg = ""
 
 func init() {
-	Command.Flags().StringVarP(&marketArg, "market", "m", "en-US", "Market code for Bing wallpapers (e.g., en-US, de-DE)")
+	Command.Flags().StringVarP(&marketArg, "market", "m", "", "Market code for Bing wallpapers (e.g., en-US, de-DE)")
 }
 
 var Command = &cobra.Command{
