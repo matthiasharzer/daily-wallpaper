@@ -11,7 +11,8 @@ import (
 )
 
 var rootCommand = &cobra.Command{
-	Use: "daily-wallpaper",
+	Use:   "daily-wallpaper",
+	Short: "Update your desktop wallpaper with a new picture every day",
 	RunE: func(cmd *cobra.Command, _ []string) error {
 		return cmd.Help()
 	},

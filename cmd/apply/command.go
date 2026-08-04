@@ -53,7 +53,7 @@ func init() {
 
 var Command = &cobra.Command{
 	Use:   "apply",
-	Short: "Applies the current wallpaper to the desktop",
+	Short: "Applies the latest available wallpaper to the desktop",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		market, err := resolveMarket(marketArg)
 		if err != nil {
