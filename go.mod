@@ -1,4 +1,4 @@
-module github.com/username/template
+module github.com/matthiasharzer/daily-wallpaper
 
 go 1.26.4
 

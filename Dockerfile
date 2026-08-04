@@ -15,7 +15,7 @@ COPY . .
 
 RUN module_path=$(go list -m) && \
 	go build \
-		-o /go/bin/<tool-name> \
+		-o /go/bin/daily-wallpaper \
 		-ldflags "-X ${module_path}/cmd/version.version=$version" \
 		.
 
@@ -23,11 +23,11 @@ FROM alpine:3.24
 
 RUN addgroup -S app && adduser -S -G app app
 
-COPY --from=build /go/bin/<tool-name> /usr/local/bin/<tool-name>
+COPY --from=build /go/bin/daily-wallpaper /usr/local/bin/daily-wallpaper
 
-WORKDIR /var/lib/<tool-name>
-RUN chown app:app /var/lib/<tool-name>
+WORKDIR /var/lib/daily-wallpaper
+RUN chown app:app /var/lib/daily-wallpaper
 
 USER app
 
-ENTRYPOINT ["/usr/local/bin/<tool-name>"]
+ENTRYPOINT ["/usr/local/bin/daily-wallpaper"]
