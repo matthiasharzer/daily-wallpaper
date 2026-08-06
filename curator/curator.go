@@ -79,7 +79,7 @@ func (c *Curator) Run() error {
 	didWallpaperChange := didWallpaperURLChange || didWallpaperFileChange
 
 	if !didWallpaperChange {
-		logging.Info("No new wallpaper found.")
+		logging.Info("No new wallpaper found")
 		return nil
 	}
 

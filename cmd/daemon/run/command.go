@@ -3,11 +3,12 @@ package run
 import (
 	"time"
 
+	"github.com/spf13/cobra"
+
 	"github.com/matthiasharzer/daily-wallpaper/curator"
 	"github.com/matthiasharzer/daily-wallpaper/local"
 	"github.com/matthiasharzer/daily-wallpaper/logging"
 	"github.com/matthiasharzer/daily-wallpaper/utils/cmdutils"
-	"github.com/spf13/cobra"
 )
 
 var interval = 1 * time.Hour
@@ -28,14 +29,15 @@ var Command = &cobra.Command{
 			return
 		}
 		if interval <= 0 {
-			logging.Fatal("interval must be positiv")
+			logging.Fatal("interval must be positive")
 			return
 		}
 		cmd.SilenceUsage = true
 
 		wallpaperProvider := cmdutils.GetProvider(market)
+		storage := local.Storage{}
 
-		wallpaperCurator := curator.NewCurator(wallpaperProvider, local.Storage{})
+		wallpaperCurator := curator.NewCurator(wallpaperProvider, storage)
 
 		err = wallpaperCurator.Run()
 		if err != nil {
