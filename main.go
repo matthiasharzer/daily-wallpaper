@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/matthiasharzer/daily-wallpaper/cmd/apply"
+	"github.com/matthiasharzer/daily-wallpaper/cmd/daemon"
 	"github.com/matthiasharzer/daily-wallpaper/cmd/version"
 
 	"github.com/spf13/cobra"
@@ -21,6 +22,7 @@ var rootCommand = &cobra.Command{
 func init() {
 	rootCommand.AddCommand(version.Command)
 	rootCommand.AddCommand(apply.Command)
+	rootCommand.AddCommand(daemon.Command)
 }
 
 func main() {

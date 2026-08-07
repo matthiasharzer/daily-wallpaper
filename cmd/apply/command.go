@@ -1,53 +1,12 @@
 package apply
 
 import (
-	"fmt"
-	"regexp"
-
 	"github.com/spf13/cobra"
-
-	"github.com/jeandeaual/go-locale"
 
 	"github.com/matthiasharzer/daily-wallpaper/curator"
 	"github.com/matthiasharzer/daily-wallpaper/local"
-	"github.com/matthiasharzer/daily-wallpaper/wallpaper"
-	"github.com/matthiasharzer/daily-wallpaper/wallpaper/bing"
+	"github.com/matthiasharzer/daily-wallpaper/utils/cmdutils"
 )
-
-func getProvider(market string) wallpaper.Provider {
-	return bing.NewWallpaperProvider(market)
-}
-
-func validateMarket(market string) error {
-	match, _ := regexp.MatchString("^[a-z]{2}-[A-Z]{2}$", market)
-	if !match {
-		return fmt.Errorf("invalid market format: %s", market)
-	}
-
-	return nil
-}
-
-func resolveMarket(market string) (string, error) {
-	if market == "" {
-		systemLocale, err := locale.GetLocale()
-		if err != nil {
-			return "", fmt.Errorf("failed to get system locale: %w", err)
-		}
-		err = validateMarket(systemLocale)
-		if err != nil {
-			return "", fmt.Errorf("invalid system locale: %w", err)
-		}
-
-		return systemLocale, nil
-	}
-
-	err := validateMarket(market)
-	if err != nil {
-		return "", fmt.Errorf("invalid market: %w", err)
-	}
-
-	return market, nil
-}
 
 var marketArg = ""
 
@@ -59,13 +18,13 @@ var Command = &cobra.Command{
 	Use:   "apply",
 	Short: "Applies the latest available wallpaper to the desktop",
 	RunE: func(cmd *cobra.Command, args []string) error {
-		market, err := resolveMarket(marketArg)
+		market, err := cmdutils.ResolveMarket(marketArg)
 		if err != nil {
 			return err
 		}
 		cmd.SilenceUsage = true
 
-		provider := getProvider(market)
+		provider := cmdutils.GetProvider(market)
 		storage := local.Storage{}
 
 		wallpaperCurator := curator.NewCurator(provider, storage)
