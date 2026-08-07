@@ -5,6 +5,8 @@ import (
 	"regexp"
 
 	"github.com/jeandeaual/go-locale"
+
+	"github.com/matthiasharzer/daily-wallpaper/logging"
 )
 
 func ValidateMarket(market string) error {
@@ -24,7 +26,8 @@ func ResolveMarket(market string) (string, error) {
 		}
 		err = ValidateMarket(systemLocale)
 		if err != nil {
-			return "", fmt.Errorf("invalid system locale: %w", err)
+			logging.Warn("system locale has an invalid format. Falling back to en-US")
+			return "en-US", nil
 		}
 
 		return systemLocale, nil
