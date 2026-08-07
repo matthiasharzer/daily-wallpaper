@@ -45,6 +45,7 @@ var Command = &cobra.Command{
 		}
 
 		ticker := time.NewTicker(interval)
+		defer ticker.Stop()
 
 		var daemonErr error
 		for daemonErr == nil {
