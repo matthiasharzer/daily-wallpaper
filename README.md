@@ -1,6 +1,6 @@
 # Daily Wallpaper
 
-An app to update the desktop wallpaper with a daily new picture. Currently supports Bing Image Of The Day only.
+An app to update the desktop wallpaper with a daily new picture. Currently supports Bing Image of the Day only.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 <br>
@@ -15,13 +15,13 @@ Download the [latest release](https://github.com/matthiasharzer/daily-wallpaper/
 
 ### `apply` Command
 
-Update the wallpaper once with todays image.
+Update the wallpaper once with today's image.
 
 ```bash
 daily-wallpaper apply [--market <market>]
 ```
 
-If the `--market` flag is omitted, the systems locale will be used. The market may influence region specific wallpapers. Example markets are `en-US` and `de-DE`.
+If the `--market` flag is omitted, the system's locale will be used. The market may influence region specific wallpapers. Example markets are `en-US` and `de-DE`.
 
 ### `daemon run` Command
 
@@ -43,4 +43,4 @@ daily-wallpaper version
 ```
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
