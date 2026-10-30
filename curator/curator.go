@@ -10,8 +10,8 @@ import (
 	systemWallpaper "github.com/reujab/wallpaper"
 
 	"github.com/matthiasharzer/daily-wallpaper/local"
-	"github.com/matthiasharzer/daily-wallpaper/logging"
 	"github.com/matthiasharzer/daily-wallpaper/wallpaper"
+	"github.com/matthiasharzer/service-kit/logging"
 )
 
 type Curator struct {
@@ -54,7 +54,7 @@ func (c *Curator) downloadWallpaper(url string, filePath string) error {
 }
 
 func (c *Curator) Run() error {
-	logging.Info("Checking for new wallpaper")
+	logging.Info("checking for new wallpaper")
 
 	latestWallpaperURL, err := c.wallpaperProvider.GetWallpaperURL()
 	if err != nil {
@@ -64,9 +64,9 @@ func (c *Curator) Run() error {
 		return fmt.Errorf("unexpectedly empty wallpaper URL")
 	}
 
-	config, err := c.storage.ReadConfig()
+	state, err := c.storage.ReadState()
 	if err != nil {
-		return fmt.Errorf("failed to get current wallpaper URL: %w", err)
+		logging.Warn("failed to read state file. Assuming no previous wallpaper was set.", "err", err)
 	}
 
 	currentSystemWallpaper, err := systemWallpaper.Get()
@@ -74,12 +74,12 @@ func (c *Curator) Run() error {
 		return fmt.Errorf("failed to get current system wallpaper: %w", err)
 	}
 
-	didWallpaperURLChange := config.CurrentWallpaperURL != latestWallpaperURL       // there is a new wallpaper
-	didWallpaperFileChange := config.CurrentWallpaperFile != currentSystemWallpaper // another app set the wallpaper
+	didWallpaperURLChange := state.CurrentWallpaperURL != latestWallpaperURL       // there is a new wallpaper
+	didWallpaperFileChange := state.CurrentWallpaperFile != currentSystemWallpaper // another app set the wallpaper
 	didWallpaperChange := didWallpaperURLChange || didWallpaperFileChange
 
 	if !didWallpaperChange {
-		logging.Info("No new wallpaper found")
+		logging.Info("no new wallpaper found")
 		return nil
 	}
 
@@ -94,7 +94,7 @@ func (c *Curator) Run() error {
 		return fmt.Errorf("failed to set wallpaper: %w", err)
 	}
 
-	err = c.storage.WriteConfig(local.Config{
+	err = c.storage.WriteState(local.State{
 		CurrentWallpaperURL:  latestWallpaperURL,
 		CurrentWallpaperFile: wallpaperFile,
 	})
@@ -102,6 +102,6 @@ func (c *Curator) Run() error {
 		return fmt.Errorf("failed to set current wallpaper URL: %w", err)
 	}
 
-	logging.Info("New wallpaper set successfully.", "url", latestWallpaperURL, "file", wallpaperFile)
+	logging.Info("new wallpaper set successfully.", "url", latestWallpaperURL, "file", wallpaperFile)
 	return nil
 }

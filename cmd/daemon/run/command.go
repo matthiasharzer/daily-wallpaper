@@ -7,8 +7,8 @@ import (
 
 	"github.com/matthiasharzer/daily-wallpaper/curator"
 	"github.com/matthiasharzer/daily-wallpaper/local"
-	"github.com/matthiasharzer/daily-wallpaper/logging"
 	"github.com/matthiasharzer/daily-wallpaper/utils/cmdutils"
+	"github.com/matthiasharzer/service-kit/logging"
 )
 
 var interval = 1 * time.Hour
