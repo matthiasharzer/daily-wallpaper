@@ -7,53 +7,53 @@ import (
 	"path/filepath"
 )
 
-const configFileName = "config.json"
+const stateFileName = "state.json"
 
-type Config struct {
+type State struct {
 	CurrentWallpaperURL  string `json:"currentWallpaperURL"`
 	CurrentWallpaperFile string `json:"currentWallpaperFile"`
 }
 
-func getConfigPath() string {
-	return filepath.Join(StorageDirectory, configFileName)
+func getStatePath() string {
+	return filepath.Join(StorageDirectory, stateFileName)
 }
 
 type Storage struct{}
 
-func (s *Storage) ReadConfig() (Config, error) {
-	configPath := getConfigPath()
+func (s *Storage) ReadState() (State, error) {
+	statePath := getStatePath()
 
-	_, err := os.Stat(configPath)
+	_, err := os.Stat(statePath)
 	if os.IsNotExist(err) {
-		return Config{}, nil
+		return State{}, nil
 	} else if err != nil {
-		return Config{}, fmt.Errorf("failed to stat config file: %w", err)
+		return State{}, fmt.Errorf("failed to stat state file: %w", err)
 	}
 
-	data, err := os.ReadFile(configPath)
+	data, err := os.ReadFile(statePath)
 	if err != nil {
-		return Config{}, fmt.Errorf("failed to read config file: %w", err)
+		return State{}, fmt.Errorf("failed to read state file: %w", err)
 	}
 
-	var config Config
-	err = json.Unmarshal(data, &config)
+	var state State
+	err = json.Unmarshal(data, &state)
 	if err != nil {
-		return Config{}, fmt.Errorf("failed to unmarshal config file: %w", err)
+		return State{}, fmt.Errorf("failed to unmarshal state file: %w", err)
 	}
 
-	return config, nil
+	return state, nil
 }
 
-func (s *Storage) WriteConfig(config Config) error {
-	configPath := getConfigPath()
+func (s *Storage) WriteState(state State) error {
+	statePath := getStatePath()
 
-	data, err := json.Marshal(config)
+	data, err := json.Marshal(state)
 	if err != nil {
-		return fmt.Errorf("failed to marshal config: %w", err)
+		return fmt.Errorf("failed to marshal state: %w", err)
 	}
-	err = os.WriteFile(configPath, data, 0644)
+	err = os.WriteFile(statePath, data, 0644)
 	if err != nil {
-		return fmt.Errorf("failed to write config file: %w", err)
+		return fmt.Errorf("failed to write state file: %w", err)
 	}
 	return nil
 }

@@ -64,7 +64,7 @@ func (c *Curator) Run() error {
 		return fmt.Errorf("unexpectedly empty wallpaper URL")
 	}
 
-	config, err := c.storage.ReadConfig()
+	state, err := c.storage.ReadState()
 	if err != nil {
 		return fmt.Errorf("failed to get current wallpaper URL: %w", err)
 	}
@@ -74,8 +74,8 @@ func (c *Curator) Run() error {
 		return fmt.Errorf("failed to get current system wallpaper: %w", err)
 	}
 
-	didWallpaperURLChange := config.CurrentWallpaperURL != latestWallpaperURL       // there is a new wallpaper
-	didWallpaperFileChange := config.CurrentWallpaperFile != currentSystemWallpaper // another app set the wallpaper
+	didWallpaperURLChange := state.CurrentWallpaperURL != latestWallpaperURL       // there is a new wallpaper
+	didWallpaperFileChange := state.CurrentWallpaperFile != currentSystemWallpaper // another app set the wallpaper
 	didWallpaperChange := didWallpaperURLChange || didWallpaperFileChange
 
 	if !didWallpaperChange {
@@ -94,7 +94,7 @@ func (c *Curator) Run() error {
 		return fmt.Errorf("failed to set wallpaper: %w", err)
 	}
 
-	err = c.storage.WriteConfig(local.Config{
+	err = c.storage.WriteState(local.State{
 		CurrentWallpaperURL:  latestWallpaperURL,
 		CurrentWallpaperFile: wallpaperFile,
 	})
