@@ -21,7 +21,7 @@ Update the wallpaper once with today's image.
 daily-wallpaper apply [--market <market>]
 ```
 
-If the `--market` flag is omitted, the system's locale will be used. The market may influence region specific wallpapers. Example markets are `en-US` and `de-DE`.
+If the `--market` flag is omitted, the system's locale will be used. The market may influence region-specific wallpapers. Example markets are `en-US` and `de-DE`.
 
 ### `daemon run` Command
 

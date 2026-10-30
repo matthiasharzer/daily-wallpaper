@@ -1,6 +1,7 @@
 package apply
 
 import (
+	"github.com/matthiasharzer/service-kit/logging"
 	"github.com/spf13/cobra"
 
 	"github.com/matthiasharzer/daily-wallpaper/curator"
@@ -20,7 +21,8 @@ var Command = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		market, err := cmdutils.ResolveMarket(marketArg)
 		if err != nil {
-			return err
+			logging.Warn("failed to resolve market, omitting market argument: %v", err)
+			market = ""
 		}
 		cmd.SilenceUsage = true
 
