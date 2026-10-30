@@ -54,7 +54,7 @@ func (c *Curator) downloadWallpaper(url string, filePath string) error {
 }
 
 func (c *Curator) Run() error {
-	logging.Info("Checking for new wallpaper")
+	logging.Info("checking for new wallpaper")
 
 	latestWallpaperURL, err := c.wallpaperProvider.GetWallpaperURL()
 	if err != nil {
@@ -66,7 +66,7 @@ func (c *Curator) Run() error {
 
 	state, err := c.storage.ReadState()
 	if err != nil {
-		return fmt.Errorf("failed to get current wallpaper URL: %w", err)
+		logging.Warn("failed to read state file. Assuming no previous wallpaper was set.", "err", err)
 	}
 
 	currentSystemWallpaper, err := systemWallpaper.Get()
@@ -79,7 +79,7 @@ func (c *Curator) Run() error {
 	didWallpaperChange := didWallpaperURLChange || didWallpaperFileChange
 
 	if !didWallpaperChange {
-		logging.Info("No new wallpaper found")
+		logging.Info("no new wallpaper found")
 		return nil
 	}
 
@@ -102,6 +102,6 @@ func (c *Curator) Run() error {
 		return fmt.Errorf("failed to set current wallpaper URL: %w", err)
 	}
 
-	logging.Info("New wallpaper set successfully.", "url", latestWallpaperURL, "file", wallpaperFile)
+	logging.Info("new wallpaper set successfully.", "url", latestWallpaperURL, "file", wallpaperFile)
 	return nil
 }
