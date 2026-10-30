@@ -10,8 +10,8 @@ import (
 	systemWallpaper "github.com/reujab/wallpaper"
 
 	"github.com/matthiasharzer/daily-wallpaper/local"
-	"github.com/matthiasharzer/daily-wallpaper/logging"
 	"github.com/matthiasharzer/daily-wallpaper/wallpaper"
+	"github.com/matthiasharzer/service-kit/logging"
 )
 
 type Curator struct {

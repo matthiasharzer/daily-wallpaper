@@ -6,7 +6,7 @@ import (
 
 	"github.com/jeandeaual/go-locale"
 
-	"github.com/matthiasharzer/daily-wallpaper/logging"
+	"github.com/matthiasharzer/service-kit/logging"
 )
 
 func ValidateMarket(market string) error {
