@@ -6,7 +6,7 @@ tool honnef.co/go/tools/cmd/staticcheck
 
 require (
 	github.com/jeandeaual/go-locale v0.0.0-20250612000132-0ef82f21eade
-	github.com/matthiasharzer/service-kit v0.1.1
+	github.com/matthiasharzer/service-kit v0.2.0
 	github.com/reujab/wallpaper v0.0.0-20210630195606-5f9f655b3740
 	github.com/spf13/cobra v1.10.2
 	golang.org/x/text v0.43.0
